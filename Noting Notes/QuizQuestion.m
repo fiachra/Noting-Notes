@@ -51,45 +51,94 @@
 
 - (void) generateNoteQuestion:(NoteQuestions)nq
 {
+    NSInteger letterChoice = [self randomValueBetween:0 and:5];
+    NSInteger timeChoice = [self randomValueBetween:0 and:3];
+    self.AnswerLetter = self.letters[letterChoice];
+    [self.letters removeObject:self.AnswerLetter];
+    
+                            
     switch (nq) {
-        case NQ_NON_LEDGER:
+        case NQ_TREBLE_CLEF:
         {
+            _QuestionImageLocation = [NSString stringWithFormat:@"%@%@-Natural-Middle-%@",
+                                     _clefs[0], _AnswerLetter, _times[timeChoice]];
             break;
         }
-        case NQ_LEDGER_ONLY:
+        case NQ_BASS_CLEF:
         {
+            _QuestionImageLocation = [NSString stringWithFormat:@"%@%@-Natural-Middle-%@",
+                                      _clefs[0], _AnswerLetter, _times[timeChoice]];
             break;
         }
         case NQ_BOTH:
         {
+            NSInteger clefChoice = [self randomValueBetween:0 and:1];
+            _QuestionImageLocation = [NSString stringWithFormat:@"%@%@-Natural-Middle-%@",
+                                      _clefs[clefChoice], _AnswerLetter, _times[timeChoice]];
             break;
         }
             
         default:
             break;
     }
+    [self CompleteAnswerOptions];
 
 }
 
 - (void) generateKeyQuestion:(KeyQuestions)kq
 {
+    NSInteger letterChoice = [self randomValueBetween:0 and:6];
+    self.AnswerLetter = self.letters[letterChoice];
+    [self.letters removeObject:self.AnswerLetter];
+    
     switch (kq) {
         case KQ_MAJOR_ONLY:
         {
+            _QuestionImageLocation = [NSString stringWithFormat:@"Key-%@-%@-%@",
+                                      _clefs[0], _AnswerLetter, _tones[0]];
             break;
         }
         case KQ_MINOR_ONLY:
         {
+            _QuestionImageLocation = [NSString stringWithFormat:@"Key-%@-%@-%@",
+                                      _clefs[0], _AnswerLetter, _tones[1]];
             break;
         }
         case KQ_BOTH:
         {
+            NSInteger toneChoice = [self randomValueBetween:0 and:1];
+            _QuestionImageLocation = [NSString stringWithFormat:@"Key-%@-%@-%@",
+                                      _clefs[0], _AnswerLetter, _tones[toneChoice]];
             break;
         }
         default:
             break;
     }
+    [self CompleteAnswerOptions];
     
+}
+
+- (void) CompleteAnswerOptions
+{
+    _CorrectAnswerIndex = [self randomValueBetween:0 and:2];
+    _AnswerOptions = [[NSMutableArray alloc] init];
+    
+    for (NSUInteger i=0; i<3; i++) {
+        
+        if(i == _CorrectAnswerIndex)
+        {
+            [_AnswerOptions insertObject:[NSString stringWithFormat:@"%@", _AnswerLetter] atIndex:i];
+        }
+        else
+        {
+            NSInteger incorrectChoice = [self randomValueBetween:0 and:_letters.count];
+            NSString *incorrectChoiceLetter = _letters[incorrectChoice];
+            [_AnswerOptions insertObject:[NSString stringWithFormat:@"%@", incorrectChoiceLetter] atIndex:i];
+            [_letters removeObject:incorrectChoiceLetter];
+        }
+    }
+    
+    NSLog(@"%@",_QuestionImageLocation);
 }
 
 - (NSInteger)randomValueBetween:(NSInteger)min and:(NSInteger)max {

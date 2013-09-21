@@ -10,4 +10,7 @@
 
 @interface QuizScene : SKScene
 
+@property (strong, nonatomic) SKSpriteNode *note;
+@property (strong, nonatomic) SKSpriteNode *background;
+
 @end

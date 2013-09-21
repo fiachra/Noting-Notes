@@ -15,8 +15,8 @@ typedef NS_ENUM(NSUInteger, KeyQuestions) {
 };
 
 typedef NS_ENUM(NSUInteger, NoteQuestions) {
-    NQ_NON_LEDGER,
-    NQ_LEDGER_ONLY,
+    NQ_TREBLE_CLEF,
+    NQ_BASS_CLEF,
     NQ_BOTH
 };
 
@@ -29,15 +29,19 @@ typedef NS_ENUM(NSUInteger, QuestionType) {
 
 @interface QuizQuestion : NSObject
 
+-(id) initWithQuestion:(QuestionType)qt Note:(NoteQuestions)nq andKey:(KeyQuestions)kq;
 
 @property (strong, nonatomic) NSMutableArray *letters;
 @property (strong, nonatomic) NSMutableArray *clefs;
 @property (strong, nonatomic) NSMutableArray *times;
 @property (strong, nonatomic) NSMutableArray *tones;
 
+@property (strong, nonatomic) NSString *QuestionImageLocation;
+@property (strong, nonatomic) NSString *AnswerLetter;
 
-@property (strong, nonatomic) NSArray *imageLocations;
 @property (nonatomic) NSInteger CorrectAnswerIndex;
+@property (strong, nonatomic) NSMutableArray *AnswerOptions;
+
 
 
 @end
